@@ -1,0 +1,585 @@
+{
+  "n_test": 5718,
+  "n_kb": 22869,
+  "triage": {
+    "type": {
+      "macro_f1": 0.9410911507429403,
+      "weighted_f1": 0.93793761191051,
+      "accuracy": 0.9389646729625744,
+      "ece": 0.004668140500175384,
+      "per_class": {
+        "Change": {
+          "precision": 0.9949664429530202,
+          "recall": 0.9769357495881383,
+          "f1-score": 0.9858686616791354,
+          "support": 607.0
+        },
+        "Incident": {
+          "precision": 0.8961253091508656,
+          "recall": 0.962372731297034,
+          "f1-score": 0.928068303094984,
+          "support": 2259.0
+        },
+        "Problem": {
+          "precision": 0.9211775878442545,
+          "recall": 0.7976973684210527,
+          "f1-score": 0.8550022036139269,
+          "support": 1216.0
+        },
+        "Request": {
+          "precision": 0.9933049300060864,
+          "recall": 0.9975550122249389,
+          "f1-score": 0.9954254345837146,
+          "support": 1636.0
+        },
+        "accuracy": 0.9389646729625744,
+        "macro avg": {
+          "precision": 0.9513935674885567,
+          "recall": 0.9336402153827911,
+          "f1-score": 0.9410911507429403,
+          "support": 5718.0
+        },
+        "weighted avg": {
+          "precision": 0.9397500028948688,
+          "recall": 0.9389646729625744,
+          "f1-score": 0.93793761191051,
+          "support": 5718.0
+        }
+      }
+    },
+    "queue": {
+      "macro_f1": 0.7866365784006657,
+      "weighted_f1": 0.8002472245075813,
+      "accuracy": 0.8006295907660022,
+      "ece": 0.06982061219502389,
+      "per_class": {
+        "Billing and Payments": {
+          "precision": 0.8978805394990366,
+          "recall": 0.8321428571428572,
+          "f1-score": 0.8637627432808156,
+          "support": 560.0
+        },
+        "Customer Service": {
+          "precision": 0.7017726798748697,
+          "recall": 0.7852975495915986,
+          "f1-score": 0.7411894273127754,
+          "support": 857.0
+        },
+        "General Inquiry": {
+          "precision": 0.8793103448275862,
+          "recall": 0.5862068965517241,
+          "f1-score": 0.7034482758620689,
+          "support": 87.0
+        },
+        "Human Resources": {
+          "precision": 0.8902439024390244,
+          "recall": 0.6460176991150443,
+          "f1-score": 0.7487179487179487,
+          "support": 113.0
+        },
+        "IT Support": {
+          "precision": 0.8571428571428571,
+          "recall": 0.7369942196531792,
+          "f1-score": 0.7925407925407926,
+          "support": 692.0
+        },
+        "Product Support": {
+          "precision": 0.7561869844179652,
+          "recall": 0.7932692307692307,
+          "f1-score": 0.7742843735335523,
+          "support": 1040.0
+        },
+        "Returns and Exchanges": {
+          "precision": 0.9086538461538461,
+          "recall": 0.6974169741697417,
+          "f1-score": 0.7891440501043842,
+          "support": 271.0
+        },
+        "Sales and Pre-Sales": {
+          "precision": 0.8880597014925373,
+          "recall": 0.6197916666666666,
+          "f1-score": 0.7300613496932515,
+          "support": 192.0
+        },
+        "Service Outages and Maintenance": {
+          "precision": 0.9357798165137615,
+          "recall": 0.8464730290456431,
+          "f1-score": 0.8888888888888888,
+          "support": 241.0
+        },
+        "Technical Support": {
+          "precision": 0.7918015102481122,
+          "recall": 0.8816816816816817,
+          "f1-score": 0.8343279340721796,
+          "support": 1665.0
+        },
+        "accuracy": 0.8006295907660022,
+        "macro avg": {
+          "precision": 0.8506832182609596,
+          "recall": 0.7425291804387367,
+          "f1-score": 0.7866365784006657,
+          "support": 5718.0
+        },
+        "weighted avg": {
+          "precision": 0.8082427904901289,
+          "recall": 0.8006295907660022,
+          "f1-score": 0.8002472245075813,
+          "support": 5718.0
+        }
+      }
+    },
+    "priority": {
+      "macro_f1": 0.8283266585036966,
+      "weighted_f1": 0.8347658184305815,
+      "accuracy": 0.835431969220007,
+      "ece": 0.024322614443497457,
+      "per_class": {
+        "high": {
+          "precision": 0.8389610389610389,
+          "recall": 0.868668758404303,
+          "f1-score": 0.8535564853556485,
+          "support": 2231.0
+        },
+        "low": {
+          "precision": 0.8510223953261928,
+          "recall": 0.7444633730834753,
+          "f1-score": 0.7941844616083599,
+          "support": 1174.0
+        },
+        "medium": {
+          "precision": 0.8252834943301134,
+          "recall": 0.8495460440985733,
+          "f1-score": 0.8372390285470814,
+          "support": 2313.0
+        },
+        "accuracy": 0.835431969220007,
+        "macro avg": {
+          "precision": 0.8384223095391151,
+          "recall": 0.8208927251954505,
+          "f1-score": 0.8283266585036966,
+          "support": 5718.0
+        },
+        "weighted avg": {
+          "precision": 0.8359047031165757,
+          "recall": 0.835431969220007,
+          "f1-score": 0.8347658184305815,
+          "support": 5718.0
+        }
+      }
+    },
+    "critical": {
+      "macro_f1": 0.90914248585396,
+      "weighted_f1": 0.9480847122907122,
+      "accuracy": 0.9484085344526058,
+      "ece": 0.012687660027270614,
+      "per_class": {
+        "critical": {
+          "precision": 0.8630705394190872,
+          "recall": 0.8361809045226131,
+          "f1-score": 0.8494129657988769,
+          "support": 995.0
+        },
+        "routine": {
+          "precision": 0.9657130837189735,
+          "recall": 0.9720516620791869,
+          "f1-score": 0.968872005909043,
+          "support": 4723.0
+        },
+        "accuracy": 0.9484085344526058,
+        "macro avg": {
+          "precision": 0.9143918115690304,
+          "recall": 0.9041162833009,
+          "f1-score": 0.90914248585396,
+          "support": 5718.0
+        },
+        "weighted avg": {
+          "precision": 0.9478520603579406,
+          "recall": 0.9484085344526058,
+          "f1-score": 0.9480847122907122,
+          "support": 5718.0
+        }
+      }
+    }
+  },
+  "ablation": {
+    "type": {
+      "tfidf_lr": 0.8756431166930816,
+      "embeddinggemma_lr": 0.8290836225111927,
+      "knn_precedents": 0.9401963028008087,
+      "ensemble": 0.9410911507429403,
+      "ensemble_uncalibrated_ece": 0.06765668733518831
+    },
+    "queue": {
+      "tfidf_lr": 0.589914386032361,
+      "embeddinggemma_lr": 0.3441388419739998,
+      "knn_precedents": 0.7850348834546641,
+      "ensemble": 0.7866365784006657,
+      "ensemble_uncalibrated_ece": 0.179444886490239
+    },
+    "priority": {
+      "tfidf_lr": 0.6325289547741132,
+      "embeddinggemma_lr": 0.46274294948621136,
+      "knn_precedents": 0.8322512415272897,
+      "ensemble": 0.8283266585036966,
+      "ensemble_uncalibrated_ece": 0.15745003493766202
+    },
+    "critical": {
+      "tfidf_lr": 0.8077586137057771,
+      "embeddinggemma_lr": 0.702320461918647,
+      "knn_precedents": 0.8989187892367931,
+      "ensemble": 0.90914248585396,
+      "ensemble_uncalibrated_ece": 0.0989798678505179
+    }
+  },
+  "robustness": {
+    "top1_sim_quantiles": {
+      "0.05": 0.786997377872467,
+      "0.25": 0.8761349320411682,
+      "0.5": 0.9340062737464905,
+      "0.75": 0.9717302322387695,
+      "0.95": 0.9914870858192444
+    },
+    "near_duplicate_top1>=0.95": {
+      "share": 0.41395592864637987,
+      "type": {
+        "ensemble": 0.9895175448536087,
+        "tfidf_lr": 0.9378983905514869
+      },
+      "queue": {
+        "ensemble": 0.9622490665687631,
+        "tfidf_lr": 0.8046588997513598
+      },
+      "priority": {
+        "ensemble": 0.9647566425934903,
+        "tfidf_lr": 0.7976666964867638
+      }
+    },
+    "novel_top1<0.90": {
+      "share": 0.34889821615949634,
+      "type": {
+        "ensemble": 0.8784667789257048,
+        "tfidf_lr": 0.806055093473595
+      },
+      "queue": {
+        "ensemble": 0.5561929920676011,
+        "tfidf_lr": 0.3479116844664999
+      },
+      "priority": {
+        "ensemble": 0.6464389085736285,
+        "tfidf_lr": 0.4490041491720728
+      }
+    },
+    "novel_top1<0.85": {
+      "share": 0.16876530255334032,
+      "type": {
+        "ensemble": 0.8505101060928485,
+        "tfidf_lr": 0.793060727759523
+      },
+      "queue": {
+        "ensemble": 0.501813088269458,
+        "tfidf_lr": 0.2974562505440988
+      },
+      "priority": {
+        "ensemble": 0.5629588814844463,
+        "tfidf_lr": 0.3916737599288324
+      }
+    }
+  },
+  "high_priority_incident": {
+    "support": 995,
+    "joint_label_recall": 0.9015075376884422,
+    "joint_label_precision": 0.7875329236172081,
+    "gate_escalation_recall": 0.9226130653266331,
+    "gate_escalation_precision": 0.7373493975903614,
+    "gate_escalation_rate": 0.21773347324239245,
+    "high_priority_recall": 0.868668758404303
+  },
+  "gate": {
+    "thresholds": {
+      "min_confidence": 0.627,
+      "min_similarity": 0.6759999990463257,
+      "critical_risk": 0.38
+    },
+    "status_rates": {
+      "AUTO_DRAFT": 0.6145505421476041,
+      "HUMAN_REVIEW": 0.13518712836656174,
+      "ESCALATE_ONCALL": 0.2502623294858342
+    },
+    "reason_counts": {
+      "CRITICAL_INCIDENT": 1139,
+      "LOW_CONFIDENCE": 834,
+      "SECURITY_INCIDENT": 397,
+      "SECURITY_SENSITIVE": 188,
+      "CRITICAL_RISK": 106,
+      "UNSUPPORTED_ACTION": 35,
+      "CLINICAL_IMPACT": 21,
+      "NO_PRECEDENT": 18
+    },
+    "critical_missed_by_gate": 0.032160804020100506,
+    "auto_draft_routing_accuracy": 0.8565737051792829,
+    "overall_routing_accuracy": 0.7688002798181183
+  },
+  "retrieval": {
+    "queue_precision@5": 0.5203567681007345,
+    "type_precision@5": 0.8307799930045471,
+    "top1_similarity_median": 0.9340062737464905,
+    "cross_lingual_share": 0.25264078349073105
+  },
+  "latency_ms_triage_no_llm": {
+    "p50": 80.32795849976537,
+    "p95": 133.3950934499171,
+    "n": 200
+  },
+  "generation": {
+    "n": 20,
+    "n_generated": 20,
+    "valid_citation_rate": 1.0,
+    "hallucinated_citation_rate": 0.0,
+    "unsupported_claim_rate": 0.0,
+    "language_match_rate": 1.0,
+    "latency_ms_p50": 23718.4,
+    "backend": "mlx:mlx-community/gemma-4-e4b-it-4bit",
+    "samples": [
+      {
+        "ticket_id": "TKT-27280",
+        "ok": true,
+        "has_valid_citation": true,
+        "hallucinated_citation": false,
+        "unsupported_claim": false,
+        "language_match": true,
+        "self_grounding": "FULL",
+        "status": "AUTO_DRAFT",
+        "latency_ms": 35238.4,
+        "backend": "mlx:mlx-community/gemma-4-e4b-it-4bit"
+      },
+      {
+        "ticket_id": "TKT-26967",
+        "ok": true,
+        "has_valid_citation": true,
+        "hallucinated_citation": false,
+        "unsupported_claim": false,
+        "language_match": true,
+        "self_grounding": "FULL",
+        "status": "AUTO_DRAFT",
+        "latency_ms": 23071.5,
+        "backend": "mlx:mlx-community/gemma-4-e4b-it-4bit"
+      },
+      {
+        "ticket_id": "TKT-24018",
+        "ok": true,
+        "has_valid_citation": true,
+        "hallucinated_citation": false,
+        "unsupported_claim": false,
+        "language_match": true,
+        "self_grounding": "PARTIAL",
+        "status": "HUMAN_REVIEW",
+        "latency_ms": 32991.0,
+        "backend": "mlx:mlx-community/gemma-4-e4b-it-4bit"
+      },
+      {
+        "ticket_id": "TKT-28439",
+        "ok": true,
+        "has_valid_citation": true,
+        "hallucinated_citation": false,
+        "unsupported_claim": false,
+        "language_match": true,
+        "self_grounding": "FULL",
+        "status": "AUTO_DRAFT",
+        "latency_ms": 24404.5,
+        "backend": "mlx:mlx-community/gemma-4-e4b-it-4bit"
+      },
+      {
+        "ticket_id": "TKT-27669",
+        "ok": true,
+        "has_valid_citation": true,
+        "hallucinated_citation": false,
+        "unsupported_claim": false,
+        "language_match": true,
+        "self_grounding": "FULL",
+        "status": "AUTO_DRAFT",
+        "latency_ms": 29870.2,
+        "backend": "mlx:mlx-community/gemma-4-e4b-it-4bit"
+      },
+      {
+        "ticket_id": "TKT-27216",
+        "ok": true,
+        "has_valid_citation": true,
+        "hallucinated_citation": false,
+        "unsupported_claim": false,
+        "language_match": true,
+        "self_grounding": "FULL",
+        "status": "AUTO_DRAFT",
+        "latency_ms": 19244.4,
+        "backend": "mlx:mlx-community/gemma-4-e4b-it-4bit"
+      },
+      {
+        "ticket_id": "TKT-23601",
+        "ok": true,
+        "has_valid_citation": true,
+        "hallucinated_citation": false,
+        "unsupported_claim": false,
+        "language_match": true,
+        "self_grounding": "FULL",
+        "status": "AUTO_DRAFT",
+        "latency_ms": 22883.0,
+        "backend": "mlx:mlx-community/gemma-4-e4b-it-4bit"
+      },
+      {
+        "ticket_id": "TKT-23377",
+        "ok": true,
+        "has_valid_citation": true,
+        "hallucinated_citation": false,
+        "unsupported_claim": false,
+        "language_match": true,
+        "self_grounding": "FULL",
+        "status": "AUTO_DRAFT",
+        "latency_ms": 32720.3,
+        "backend": "mlx:mlx-community/gemma-4-e4b-it-4bit"
+      },
+      {
+        "ticket_id": "TKT-26600",
+        "ok": true,
+        "has_valid_citation": true,
+        "hallucinated_citation": false,
+        "unsupported_claim": false,
+        "language_match": true,
+        "self_grounding": "FULL",
+        "status": "AUTO_DRAFT",
+        "latency_ms": 23368.4,
+        "backend": "mlx:mlx-community/gemma-4-e4b-it-4bit"
+      },
+      {
+        "ticket_id": "TKT-25802",
+        "ok": true,
+        "has_valid_citation": true,
+        "hallucinated_citation": false,
+        "unsupported_claim": false,
+        "language_match": true,
+        "self_grounding": "FULL",
+        "status": "ESCALATE_ONCALL",
+        "latency_ms": 25215.5,
+        "backend": "mlx:mlx-community/gemma-4-e4b-it-4bit"
+      },
+      {
+        "ticket_id": "TKT-25338",
+        "ok": true,
+        "has_valid_citation": true,
+        "hallucinated_citation": false,
+        "unsupported_claim": false,
+        "language_match": true,
+        "self_grounding": "FULL",
+        "status": "AUTO_DRAFT",
+        "latency_ms": 29460.7,
+        "backend": "mlx:mlx-community/gemma-4-e4b-it-4bit"
+      },
+      {
+        "ticket_id": "TKT-23359",
+        "ok": true,
+        "has_valid_citation": true,
+        "hallucinated_citation": false,
+        "unsupported_claim": false,
+        "language_match": true,
+        "self_grounding": "FULL",
+        "status": "AUTO_DRAFT",
+        "latency_ms": 13425.7,
+        "backend": "mlx:mlx-community/gemma-4-e4b-it-4bit"
+      },
+      {
+        "ticket_id": "TKT-25444",
+        "ok": true,
+        "has_valid_citation": true,
+        "hallucinated_citation": false,
+        "unsupported_claim": false,
+        "language_match": true,
+        "self_grounding": "FULL",
+        "status": "ESCALATE_ONCALL",
+        "latency_ms": 14526.3,
+        "backend": "mlx:mlx-community/gemma-4-e4b-it-4bit"
+      },
+      {
+        "ticket_id": "TKT-27766",
+        "ok": true,
+        "has_valid_citation": true,
+        "hallucinated_citation": false,
+        "unsupported_claim": false,
+        "language_match": true,
+        "self_grounding": "FULL",
+        "status": "ESCALATE_ONCALL",
+        "latency_ms": 30175.8,
+        "backend": "mlx:mlx-community/gemma-4-e4b-it-4bit"
+      },
+      {
+        "ticket_id": "TKT-23406",
+        "ok": true,
+        "has_valid_citation": true,
+        "hallucinated_citation": false,
+        "unsupported_claim": false,
+        "language_match": true,
+        "self_grounding": "PARTIAL",
+        "status": "ESCALATE_ONCALL",
+        "latency_ms": 23655.4,
+        "backend": "mlx:mlx-community/gemma-4-e4b-it-4bit"
+      },
+      {
+        "ticket_id": "TKT-27070",
+        "ok": true,
+        "has_valid_citation": true,
+        "hallucinated_citation": false,
+        "unsupported_claim": false,
+        "language_match": true,
+        "self_grounding": "FULL",
+        "status": "AUTO_DRAFT",
+        "latency_ms": 23781.4,
+        "backend": "mlx:mlx-community/gemma-4-e4b-it-4bit"
+      },
+      {
+        "ticket_id": "TKT-27360",
+        "ok": true,
+        "has_valid_citation": true,
+        "hallucinated_citation": false,
+        "unsupported_claim": false,
+        "language_match": true,
+        "self_grounding": "FULL",
+        "status": "AUTO_DRAFT",
+        "latency_ms": 22698.3,
+        "backend": "mlx:mlx-community/gemma-4-e4b-it-4bit"
+      },
+      {
+        "ticket_id": "TKT-25371",
+        "ok": true,
+        "has_valid_citation": true,
+        "hallucinated_citation": false,
+        "unsupported_claim": false,
+        "language_match": true,
+        "self_grounding": "FULL",
+        "status": "HUMAN_REVIEW",
+        "latency_ms": 21117.5,
+        "backend": "mlx:mlx-community/gemma-4-e4b-it-4bit"
+      },
+      {
+        "ticket_id": "TKT-26848",
+        "ok": true,
+        "has_valid_citation": true,
+        "hallucinated_citation": false,
+        "unsupported_claim": false,
+        "language_match": true,
+        "self_grounding": "FULL",
+        "status": "AUTO_DRAFT",
+        "latency_ms": 26903.0,
+        "backend": "mlx:mlx-community/gemma-4-e4b-it-4bit"
+      },
+      {
+        "ticket_id": "TKT-25874",
+        "ok": true,
+        "has_valid_citation": true,
+        "hallucinated_citation": false,
+        "unsupported_claim": false,
+        "language_match": true,
+        "self_grounding": "FULL",
+        "status": "ESCALATE_ONCALL",
+        "latency_ms": 17826.4,
+        "backend": "mlx:mlx-community/gemma-4-e4b-it-4bit"
+      }
+    ]
+  }
+}

@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.env
+.DS_Store
+data/raw/
+artifacts/
+!artifacts/.gitkeep
+
+# local copies of secrets
+env.txt
+*.env
+.env.*
+!.env.example
