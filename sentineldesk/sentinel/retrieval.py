@@ -80,15 +80,18 @@ class Retriever:
         return self
 
     def _build_index(self) -> None:
+        # Exact search with NumPy is fast for tens of thousands of tickets and gives the same
+        # results as FAISS IndexFlatIP. FAISS is opt-in because loading it next to PyTorch
+        # can crash Python on macOS (both bundle their own OpenMP runtime).
         self._index = None
-        if self.backend != "embeddings":
+        if self.backend != "embeddings" or not config.USE_FAISS:
             return
         try:
             import faiss
             self._index = faiss.IndexFlatIP(self.matrix.shape[1])
             self._index.add(self.matrix)
         except ImportError:
-            pass  # numpy dot product is fast enough for tens of thousands of rows
+            pass
 
     # ------------------------------------------------------------ search
     def _nearest(self, qvec, n: int) -> tuple[np.ndarray, np.ndarray]:

@@ -8,6 +8,10 @@ Usage:
 """
 from __future__ import annotations
 
+import faulthandler
+
+faulthandler.enable()  # print the failing line if a native library crashes
+
 import argparse
 import json
 import time

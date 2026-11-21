@@ -34,6 +34,8 @@ RETRIEVAL_BACKEND = os.getenv("SENTINEL_RETRIEVAL", "auto")  # auto | embeddings
 EMBED_MODEL = os.getenv(
     "SENTINEL_EMBED_MODEL", "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
 )
+USE_FAISS = os.getenv("SENTINEL_USE_FAISS", "0") == "1"  # opt-in; NumPy exact search by default
+os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")   # avoid tokenizer/fork conflicts
 TOP_K = 5
 CANDIDATES = 30      # retrieve this many, then re-rank and keep TOP_K
 QUEUE_BONUS = 0.03   # small re-ranking boost when a precedent shares the predicted queue

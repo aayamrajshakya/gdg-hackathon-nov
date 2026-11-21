@@ -59,7 +59,7 @@ except FileNotFoundError as exc:
 
 monitor = load_monitor(desk.retriever.backend)
 defaults = desk.default_settings()
-for key, value in {"subject": "", "body": "", "result": None}.items():
+for key, value in {"subject": "", "body": "", "result": None, "result_input": None}.items():
     st.session_state.setdefault(key, value)
 
 
@@ -68,6 +68,7 @@ def load_example() -> None:
     if example:
         st.session_state.subject = example["subject"]
         st.session_state.body = example["body"]
+        st.session_state.result = None  # never show an old result next to a new ticket
 
 
 def triage_and_log(subject: str, body: str, settings: RunSettings) -> dict:
@@ -198,11 +199,17 @@ with console_tab:
                     st.session_state.result = triage_and_log(
                         st.session_state.subject, st.session_state.body, settings
                     )
+                    st.session_state.result_input = (st.session_state.subject, st.session_state.body)
                 st.rerun()
     with right:
         if st.session_state.result is None:
             st.info("Paste a ticket or load an example, then select Triage ticket.")
         else:
+            shown_subject, shown_body = st.session_state.result_input or ("", "")
+            if (shown_subject, shown_body) != (st.session_state.subject, st.session_state.body):
+                st.warning("These results are for an earlier ticket. Select Triage ticket to analyse the current text.")
+            label = shown_subject or shown_body[:80]
+            st.caption(f"Results for: {label}")
             render_result(st.session_state.result)
 
 # ---------------------------------------------------------------- outage monitor

@@ -31,7 +31,9 @@ class BurstDetector:
             similar = [it for it in recent if similarity(vec, it["vec"]) >= self.sim_threshold]
             item = {"ts": now, "vec": vec, **info}
             self.items.append(item)
-            cluster = similar + [item]
+            # The same ticket submitted twice is one report, not two.
+            unique = {c.get("text", ""): c for c in similar + [item]}
+            cluster = list(unique.values())
             if len(cluster) >= self.min_tickets:
                 self.alert = {
                     "ts": now,
