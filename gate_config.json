@@ -1,0 +1,18 @@
+{
+  "min_confidence": {
+    "type": 0.3537,
+    "queue": 0.5702,
+    "priority": 0.6358
+  },
+  "high_labels": [
+    "high",
+    "critical"
+  ],
+  "incident_label": "Incident",
+  "soft_high_incident_prob": 0.1093,
+  "min_top1_similarity": 0.22210000455379486,
+  "support_similarity": 0.1949000060558319,
+  "min_supporting_precedents": 2,
+  "use_critical_keywords": true,
+  "min_body_chars": 15
+}

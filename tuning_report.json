@@ -1,0 +1,100 @@
+{
+  "calibration": {
+    "type": {
+      "temperature": 0.675,
+      "ece_before": 0.047,
+      "ece_after": 0.0211
+    },
+    "queue": {
+      "temperature": 0.645,
+      "ece_before": 0.15,
+      "ece_after": 0.0277
+    },
+    "priority": {
+      "temperature": 0.934,
+      "ece_before": 0.0295,
+      "ece_after": 0.028
+    }
+  },
+  "heads": {
+    "type": {
+      "threshold": 0.35377073028472755,
+      "coverage": 1.0,
+      "accuracy": 0.8508963707914298,
+      "met_target": true,
+      "relaxed": false
+    },
+    "queue": {
+      "threshold": 0.5702905517676594,
+      "coverage": 0.40008745080892,
+      "accuracy": 0.7825136612021858,
+      "met_target": true,
+      "relaxed": 1.0
+    },
+    "priority": {
+      "threshold": 0.6358703981710889,
+      "coverage": 0.40008745080892,
+      "accuracy": 0.7672131147540984,
+      "met_target": true,
+      "relaxed": 1.0
+    }
+  },
+  "retrieval": {
+    "top1_median": 0.4290992319583893,
+    "min_top1_similarity": 0.22210000455379486,
+    "support_similarity": 0.1949000060558319
+  },
+  "soft_high_incident": {
+    "threshold": 0.10931507840764443,
+    "recall": 0.9005102040816326,
+    "extra_pages": 357
+  },
+  "gate_on_tune": {
+    "n": 2287,
+    "rates": {
+      "AUTO_DRAFT": 0.09226060341058155,
+      "HUMAN_REVIEW": 0.4744206383909051,
+      "ESCALATE_ONCALL": 0.43331875819851334
+    },
+    "high_incident_total": 392,
+    "high_incident_recall_oncall": 0.9158163265306123,
+    "high_incident_recall_any_human": 0.9974489795918368
+  },
+  "rule_fire_rates": {
+    "critical_impact_keywords": 0.17883690424136423,
+    "high_priority_incident": 0.18408395277656317,
+    "insufficient_precedent": 0.09969392216878006,
+    "insufficient_text": 0.00043725404459991256,
+    "low_classifier_confidence": 0.8045474420638391,
+    "low_retrieval_similarity": 0.10013117621337997,
+    "probable_high_priority_incident": 0.20026235242675994,
+    "unsupported_action": 0.009619588981198076
+  },
+  "critical_keyword_precision": 0.41075794621026895,
+  "source_csv": "C:\\Users\\evand\\Downloads\\gdg_hackathon\\customer-support-tickets\\aa_dataset-tickets-multi-lang-5-2-50-version.csv",
+  "holdout": {
+    "n": 5718,
+    "macro_f1": {
+      "type": 0.8645,
+      "queue": 0.5516,
+      "priority": 0.6023
+    },
+    "batch_ms_per_ticket": 1.77,
+    "classifier_high_incident_recall": 0.6391959798994975,
+    "gate": {
+      "n": 5718,
+      "rates": {
+        "AUTO_DRAFT": 0.0925148653375306,
+        "HUMAN_REVIEW": 0.4720181881776845,
+        "ESCALATE_ONCALL": 0.4354669464847849
+      },
+      "high_incident_total": 995,
+      "high_incident_recall_oncall": 0.9246231155778895,
+      "high_incident_recall_any_human": 0.9949748743718593
+    },
+    "single_ticket_latency_ms": {
+      "p50": 28.29,
+      "p95": 31.87
+    }
+  }
+}
