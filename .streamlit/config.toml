@@ -1,6 +1,12 @@
 [theme]
 base = "dark"
-primaryColor = "#2563eb"
+primaryColor = "#6366f1"
+backgroundColor = "#0b0f17"
+secondaryBackgroundColor = "#131a26"
+textColor = "#e6e9ef"
+font = "sans-serif"
+baseRadius = "medium"
+showSidebarBorder = true
 
 [server]
 fileWatcherType = "none"
