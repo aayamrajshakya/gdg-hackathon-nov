@@ -1,0 +1,10 @@
+.venv
+.git
+data
+artifacts/test_emb.npy
+artifacts/emb_chunks
+artifacts/*.log
+reports
+tests
+**/__pycache__
+.env
