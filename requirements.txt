@@ -1,0 +1,10 @@
+pandas
+pyarrow
+scikit-learn
+joblib
+datasets
+faiss-cpu
+sentence-transformers
+ollama
+streamlit
+langdetect
