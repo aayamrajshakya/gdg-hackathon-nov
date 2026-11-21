@@ -32,9 +32,12 @@ class SentinelDesk:
         self.generator = DraftGenerator()
 
     def default_settings(self) -> RunSettings:
+        sim = self.meta.get("sim_threshold", config.SIM_THRESHOLD[self.retriever.backend])
+        if config.SIM_THRESHOLD_OVERRIDE:
+            sim = float(config.SIM_THRESHOLD_OVERRIDE)
         return RunSettings(
             min_confidence=config.MIN_TRIAGE_CONFIDENCE,
-            sim_threshold=self.meta.get("sim_threshold", config.SIM_THRESHOLD[self.retriever.backend]),
+            sim_threshold=sim,
             critical_threshold=self.triage.critical_threshold,
         )
 
@@ -56,11 +59,15 @@ class SentinelDesk:
         language = detect_language(text)
         tick("preprocess")
 
-        triage = self.triage.predict([text])[0]
+        qvec = self.retriever.encode([text])
+        tick("embed")
+
+        knn = self.retriever.label_votes(qvec, self.triage.classes()) if self.triage.knn_weight else None
+        triage = self.triage.predict([text], knn=knn)[0]
         tick("triage")
 
-        hits, qvec = self.retriever.search(
-            text, k=s.top_k, queue=triage["queue"]["label"], ticket_type=triage["type"]["label"]
+        hits, _ = self.retriever.search(
+            text, k=s.top_k, queue=triage["queue"]["label"], ticket_type=triage["type"]["label"], qvec=qvec
         )
         tick("retrieval")
 

@@ -38,6 +38,12 @@ USE_FAISS = os.getenv("SENTINEL_USE_FAISS", "0") == "1"  # opt-in; NumPy exact s
 os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")   # avoid tokenizer/fork conflicts
 TOP_K = 5
 CANDIDATES = 30      # retrieve this many, then re-rank and keep TOP_K
+
+# Neighbour voting: how the most similar past tickets were labelled is blended into
+# the classifier's probabilities. The blend weight is tuned on validation data.
+KNN_K = 15
+KNN_TEMPERATURE = 0.05   # lower = closer neighbours count much more
+KNN_SMOOTHING = 0.5      # keeps a single neighbour from producing 100% confidence
 QUEUE_BONUS = 0.03   # small re-ranking boost when a precedent shares the predicted queue
 TYPE_BONUS = 0.01
 
@@ -45,7 +51,8 @@ TYPE_BONUS = 0.01
 MIN_TRIAGE_CONFIDENCE = float(os.getenv("SENTINEL_MIN_CONF", "0.40"))
 # Similarity scales differ by backend, so each gets its own threshold.
 SIM_THRESHOLD = {"embeddings": 0.55, "tfidf": 0.25}  # fallbacks; train.py calibrates from data
-SIM_BOUNDS = {"embeddings": (0.35, 0.70), "tfidf": (0.15, 0.45)}  # limits for the calibrated value
+SIM_BOUNDS = {"embeddings": (0.35, 0.60), "tfidf": (0.15, 0.40)}  # limits for the calibrated value
+SIM_THRESHOLD_OVERRIDE = os.getenv("SENTINEL_SIM_THRESHOLD")  # set to force a value, e.g. 0.55
 CRITICAL_TARGET_RECALL = 0.90  # tune the critical-incident detector for this recall
 
 # ---------------------------------------------------------------- outage burst detection

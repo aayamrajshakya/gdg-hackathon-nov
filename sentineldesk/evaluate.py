@@ -10,6 +10,10 @@ Usage:
 """
 from __future__ import annotations
 
+import faulthandler
+
+faulthandler.enable()  # print the failing line if a native library crashes
+
 import argparse
 import json
 import time
@@ -51,13 +55,18 @@ def main() -> None:
 
     texts = [build_text(s, b) for s, b in zip(inputs["subject"], inputs["body"])]
     t0 = time.perf_counter()
-    preds = desk.triage.predict(texts)
+    knn = None
+    if desk.triage.knn_weight:
+        vecs = desk.retriever.encode(texts, progress=True)
+        knn = desk.retriever.label_votes(vecs, desk.triage.classes())  # neighbours come from the KB only
+    preds = desk.triage.predict(texts, knn=knn)
     triage_ms = (time.perf_counter() - t0) * 1000 / max(1, len(texts))
 
     # Labels are read only now, after every prediction has been made.
     labels = read_csv(config.DATA_DIR / "test_labels.csv").set_index("ticket_id").loc[inputs["ticket_id"]]
 
-    report: dict = {"n_test": len(inputs), "triage": {}, "triage_ms_per_ticket": round(triage_ms, 2)}
+    report: dict = {"n_test": len(inputs), "triage": {}, "triage_ms_per_ticket": round(triage_ms, 2),
+                    "knn_weights": desk.triage.knn_weight, "temperatures": desk.triage.temperature}
     for t in config.TARGETS:
         y_true = labels[t].to_numpy()
         y_pred = [p[t]["label"] for p in preds]
@@ -65,6 +74,7 @@ def main() -> None:
         report["triage"][t] = {
             "macro_f1": round(f1_score(y_true, y_pred, average="macro", zero_division=0), 4),
             "accuracy": round(accuracy_score(y_true, y_pred), 4),
+            "mean_confidence": round(float(np.mean(conf)), 4),
             "ece": round(expected_calibration_error(y_true, y_pred, conf), 4),
             "per_class": classification_report(y_true, y_pred, output_dict=True, zero_division=0),
         }
@@ -123,7 +133,8 @@ def main() -> None:
     print(f"Holdout tickets: {report['n_test']}")
     for t in config.TARGETS:
         m = report["triage"][t]
-        print(f"  {t:<9} macro-F1 {m['macro_f1']:.3f}   accuracy {m['accuracy']:.3f}   ECE {m['ece']:.3f}")
+        print(f"  {t:<9} macro-F1 {m['macro_f1']:.3f}   accuracy {m['accuracy']:.3f}   "
+              f"mean confidence {m['mean_confidence']:.3f}   ECE {m['ece']:.3f}")
     h = report["high_priority_incident"]
     print(f"High-priority incidents: {h['support']}")
     print(f"  recall from predicted labels   {h['recall_predicted_labels']:.3f}")

@@ -89,6 +89,21 @@ def verify(reply: str, cited: list, hits: list[dict], require_citation: bool) ->
     return reply.strip(), valid, issues
 
 
+_PLACEHOLDER = r"[\[<{][^\]>}\n]{1,30}[\]>}]"
+_NAME_PLACEHOLDER_RE = re.compile(
+    r"(?:\s*,)?\s*[\[<{]\s*(?:customer(?:'s)?\s+|your\s+|agent\s+)?(?:full\s+|first\s+|last\s+)?"
+    r"(?:name|kunde|kundenname|vorname|nachname)\s*[\]>}]", re.IGNORECASE)
+
+
+def clean_placeholders(reply: str) -> str:
+    """Replace greetings like 'Dear [Name],' and drop leftover name placeholders."""
+    def greet(m: re.Match) -> str:
+        return "Guten Tag," if m.group(1).lower().startswith(("sehr", "lieb", "hallo")) else "Hello,"
+    reply = re.sub(rf"^\s*(dear|hello|hi|sehr geehrte[rs]?|liebe[rs]?|hallo)\s*{_PLACEHOLDER}\s*,",
+                   greet, reply, flags=re.IGNORECASE | re.MULTILINE)
+    return _NAME_PLACEHOLDER_RE.sub("", reply)
+
+
 def parse_llm_json(raw: str) -> dict:
     """Extract the JSON object from a model response; tolerate code fences and chatter."""
     raw = re.sub(r"<think>.*?</think>", "", raw, flags=re.DOTALL)  # reasoning models (e.g. on NVIDIA NIM)
@@ -276,7 +291,7 @@ class DraftGenerator:
         if data is None:
             data = template_draft(language, hits, decision)
 
-        reply, cited, issues = verify(data["reply"], data.get("cited_ticket_ids"), hits,
+        reply, cited, issues = verify(clean_placeholders(data["reply"]), data.get("cited_ticket_ids"), hits,
                                       require_citation=decision.status == AUTO)
         if data.get("grounded") is False:
             issues.append("the model reports the precedents do not address this issue")

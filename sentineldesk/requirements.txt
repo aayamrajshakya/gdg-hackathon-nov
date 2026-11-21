@@ -9,9 +9,9 @@ python-dotenv>=1.0
 # Demo UI
 streamlit>=1.36
 
-# Retrieval (multilingual embeddings + vector index). Without these, the TF-IDF fallback is used.
+# Retrieval with multilingual embeddings. Without it, the TF-IDF fallback is used.
+# Search uses exact NumPy similarity; FAISS is optional (pip install faiss-cpu, then SENTINEL_USE_FAISS=1).
 sentence-transformers>=2.7
-faiss-cpu>=1.7.4
 
 # LLM drafting runs locally through Ollama (https://ollama.com), which is installed
 # separately. No Python SDK or API key is needed.

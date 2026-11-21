@@ -52,18 +52,25 @@ def main() -> None:
     critical = model.tune_critical_threshold(texts_of(val), val)
     print(f"[triage] critical detector on validation: {critical}")
 
-    val_preds = model.predict(texts_of(val))
+    config.ARTIFACT_DIR.mkdir(parents=True, exist_ok=True)
+    retriever = Retriever(args.backend).build(kb)  # full 80% split, answers included
+    retriever.save(config.ARTIFACT_DIR)
+
+    # Neighbour voting: each validation ticket is excluded from its own neighbours.
+    val_vecs = retriever.encode(texts_of(val), progress=True)
+    val_votes = retriever.label_votes(val_vecs, model.classes(), exclude_ids=val["ticket_id"].tolist())
+    knn_report = model.tune_knn_weights(texts_of(val), val, val_votes)
+    print(f"[triage] neighbour-vote weights (validation): {knn_report}")
+    temp_report = model.tune_temperature(texts_of(val), val, val_votes)
+    print(f"[triage] confidence calibration (validation): {temp_report}")
+
+    val_preds = model.predict(texts_of(val), knn=val_votes)
     val_f1 = {
         t: round(f1_score(val[t], [p[t]["label"] for p in val_preds], average="macro", zero_division=0), 4)
         for t in config.TARGETS
     }
     print(f"[triage] validation macro-F1: {val_f1}")
-
-    config.ARTIFACT_DIR.mkdir(parents=True, exist_ok=True)
     model.save(config.ARTIFACT_DIR / "triage.joblib")
-
-    retriever = Retriever(args.backend).build(kb)  # full 80% split, answers included
-    retriever.save(config.ARTIFACT_DIR)
 
     probe = kb.sample(n=min(400, len(kb)), random_state=config.RANDOM_STATE)
     calibrated = retriever.calibrate_threshold(probe, percentile=5.0)
@@ -86,6 +93,8 @@ def main() -> None:
         "embed_model": retriever.embed_model if retriever.backend == "embeddings" else None,
         "sim_threshold": sim_threshold,
         "critical_detector": critical,
+        "knn_voting": knn_report,
+        "confidence_calibration": temp_report,
         "val_macro_f1": val_f1,
         "train_seconds": round(time.time() - t0, 1),
     }

@@ -108,9 +108,10 @@ class Retriever:
         return sims[idx], idx
 
     def search(self, text: str, k: int = config.TOP_K, queue: str | None = None,
-               ticket_type: str | None = None):
-        """Return (top-k precedent dicts, query vector)."""
-        qvec = self.encode([text])
+               ticket_type: str | None = None, qvec=None):
+        """Return (top-k precedent dicts, query vector). Pass qvec to skip re-encoding."""
+        if qvec is None:
+            qvec = self.encode([text])
         sims, idx = self._nearest(qvec, config.CANDIDATES)
         hits = []
         for sim, i in zip(sims, idx):
@@ -122,6 +123,43 @@ class Retriever:
             hits.append({**row.to_dict(), "similarity": round(float(sim), 4), "score": round(score, 4)})
         hits.sort(key=lambda h: h["score"], reverse=True)
         return hits[:k], qvec
+
+    def label_votes(self, qvecs, classes: dict[str, list[str]], k: int = config.KNN_K,
+                    exclude_ids: list[str] | None = None, chunk: int = 256) -> dict[str, np.ndarray]:
+        """For each query, a similarity-weighted label distribution of its k nearest precedents.
+
+        `classes` maps each target to the class order of its classifier head, so the
+        result can be blended with the classifier's probabilities directly.
+        `exclude_ids` (one per query) removes a ticket from its own neighbours during tuning.
+        """
+        n = qvecs.shape[0]
+        k = max(1, min(k, len(self.meta) - 1))
+        row_of = {tid: i for i, tid in enumerate(self.meta["ticket_id"])} if exclude_ids is not None else {}
+        label_idx = {}
+        for target, cls in classes.items():
+            pos = {c: j for j, c in enumerate(cls)}
+            label_idx[target] = np.array([pos.get(v, -1) for v in self.meta[target]])
+        out = {t: np.zeros((n, len(c))) for t, c in classes.items()}
+
+        for start in range(0, n, chunk):
+            q = qvecs[start:start + chunk]
+            sims = self.matrix @ q.T
+            sims = (sims.toarray() if sparse.issparse(sims) else np.asarray(sims)).T.astype(np.float64)
+            if exclude_ids is not None:
+                for r, tid in enumerate(exclude_ids[start:start + chunk]):
+                    j = row_of.get(tid)
+                    if j is not None:
+                        sims[r, j] = -np.inf
+            top = np.argpartition(-sims, k - 1, axis=1)[:, :k]
+            top_sims = np.take_along_axis(sims, top, axis=1)
+            weights = np.exp((top_sims - top_sims.max(axis=1, keepdims=True)) / config.KNN_TEMPERATURE)
+            weights[~np.isfinite(weights)] = 0.0
+            for target, cls in classes.items():
+                labels = label_idx[target][top]
+                votes = np.stack([(weights * (labels == c)).sum(axis=1) for c in range(len(cls))], axis=1)
+                votes += config.KNN_SMOOTHING / len(cls)
+                out[target][start:start + len(top)] = votes / votes.sum(axis=1, keepdims=True)
+        return out
 
     def calibrate_threshold(self, sample: pd.DataFrame, percentile: float = 5.0) -> float | None:
         """Best-match similarity of known in-domain tickets, excluding the ticket itself.
