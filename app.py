@@ -57,6 +57,24 @@ STATUS_UI = {
                            "Critical incident - page on-call now. Draft is for the engineer only."),
 }
 LANG_FLAG = {"en": "🇬🇧 EN", "de": "🇩🇪 DE"}
+UNCERTAIN_BELOW = 0.60  # display only: labels under this confidence are marked as guesses
+UNCERTAIN_HELP = ("The model is less than 60% confident in this label - treat it as a guess. "
+                  "This marker is display-only; the gate's thresholds are unchanged.")
+
+
+def label_tile(col, name: str, pred: dict, upper: bool = False) -> None:
+    """Metric tile for a predicted label; flags low-confidence predictions as uncertain."""
+    value = pred["label"].upper() if upper else pred["label"]
+    conf = pred["confidence"]
+    if conf < UNCERTAIN_BELOW:
+        col.metric(f"{name} · ⚠️ uncertain", value, f"{conf:.0%} conf · a guess",
+                   delta_color="off", help=UNCERTAIN_HELP)
+    else:
+        col.metric(name, value, f"{conf:.0%} conf", delta_color="off")
+
+
+def inbox_label(pred: dict) -> str:
+    return pred["label"] + (" (?)" if pred["confidence"] < UNCERTAIN_BELOW else "")
 
 
 @st.cache_resource(show_spinner="Loading EmbeddingGemma, triage model, precedent index and Gemma…")
@@ -180,10 +198,9 @@ else:
 
     p = r.predictions
     m = st.columns(6)
-    m[0].metric("Type", p["type"]["label"], f"{p['type']['confidence']:.0%} conf", delta_color="off")
-    m[1].metric("Queue", p["queue"]["label"], f"{p['queue']['confidence']:.0%} conf", delta_color="off")
-    m[2].metric("Priority", p["priority"]["label"].upper(), f"{p['priority']['confidence']:.0%} conf",
-                delta_color="off")
+    label_tile(m[0], "Type", p["type"])
+    label_tile(m[1], "Queue", p["queue"])
+    label_tile(m[2], "Priority", p["priority"], upper=True)
     m[3].metric("Critical risk", f"{r.critical_risk:.0%}",
                 f"threshold {desk.thresholds['critical_risk']:.0%}", delta_color="off")
     m[4].metric("Language", LANG_FLAG.get(r.language, r.language.upper()),
@@ -278,8 +295,8 @@ else:
 if ss.history:
     st.markdown("### Session inbox")
     rows = [{
-        "ref": h.ref, "status": h.gate.status, "type": h.predictions["type"]["label"],
-        "queue": h.predictions["queue"]["label"], "priority": h.predictions["priority"]["label"],
+        "ref": h.ref, "status": h.gate.status, "type": inbox_label(h.predictions["type"]),
+        "queue": inbox_label(h.predictions["queue"]), "priority": inbox_label(h.predictions["priority"]),
         "risk": f"{h.critical_risk:.0%}", "lang": h.language,
         "subject": (h.subject or h.body)[:70], "burst": "🚨" if h.burst.get("active") else "",
     } for h in ss.history[:25]]
