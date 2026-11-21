@@ -13,3 +13,6 @@ env.txt
 *.env
 .env.*
 !.env.example
+
+# rendered demo videos
+media/
